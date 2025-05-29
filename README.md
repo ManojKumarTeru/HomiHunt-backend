@@ -108,11 +108,5 @@ Includes advanced filtering, authentication, favorites, and user-to-user propert
 ## Author
 
 **Manoj Kumar Teru**  
-[GitHub](https://github.com/your-username) • [LinkedIn](https://linkedin.com/in/your-profile)
-
----
-
-## Final Notes
-
-This backend is built for scale, performance, and clarity. With caching, modular structure, and production-ready auth — it’s ready for integration into a full-stack real estate platform.
+[GitHub](https://github.com/ManojKumarTeru) • [LinkedIn](https://www.linkedin.com/in/manojkumarteru)
 

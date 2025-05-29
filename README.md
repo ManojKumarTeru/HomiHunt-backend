@@ -1,83 +1,118 @@
-# Property Listing Backend - Author (Manoj Kumar Teru)
+# 🏠 Property Listing Backend  
+### Author: **Manoj Kumar Teru**
 
-- This is a full-featured backend system for managing property listings built with **TypeScript**, **Express**, **MongoDB**, and **Redis**.  
-- It includes advanced filtering, user authentication, property favorites, and more.
+A full-featured backend system for managing property listings — built with **TypeScript**, **Express**, **MongoDB**, and **Redis**.  
+Includes advanced filtering, authentication, favorites, and user-to-user property recommendations.
 
----------------
+---
 
-## Features (Planned)
+## Features
 
-- User Authentication (Register/Login with JWT)
-- CRUD Operations for Property Listings
-- Advanced Filtering (Location, Price, Bedrooms, etc.)
-- Favorite a Property
-- Redis Caching
-- Recommend a Property to Another User
-- Deployed on Render
+-  User Authentication (Register/Login with JWT & Cookies)
+-  CRUD Operations for Property Listings
+-  Advanced Filtering (Location, Price, Bedrooms, etc.)
+-  Favorite a Property
+-  Redis Caching for faster search
+-  Recommend a Property to Another User (via email)
+-  Deployed on Render
 
---------------
+---
 
-## Tech Stack
+##  Tech Stack
 
-- **Backend**: Node.js, Express, TypeScript
-- **Database**: MongoDB
-- **Cache**: Redis
-- **Authentication**: JWT + Bcrypt
-- **Deployment**: Render
+| Layer          | Technology                            |
+|----------------|----------------------------------------|
+| Backend        | Node.js, Express, TypeScript           |
+| Database       | MongoDB Atlas + Mongoose               |
+| Caching        | Redis (via Upstash)                    |
+| Authentication | JWT + Bcrypt (Cookie-based sessions)   |
+| Deployment     | Render                                 |
 
+---
 
+## ⚙️ Project Setup
 
-## Project Setup
+-  TypeScript configured with ES6 + CommonJS
+-  Express server with middleware (CORS, cookies, body-parser)
+-  MongoDB connected via Mongoose
+-  Clean structure in `src/` directory
+-  Hot reloading using `ts-node-dev`
+-  Redis caching added to optimize read performance
 
-- Configured TypeScript with `tsconfig.json` for ES6 target and CommonJS modules.
-- Set up Express server with necessary middleware.
-- Configured MongoDB connection using Mongoose.
-- Organized project files inside the `src/` folder for clear structure.
-- Integrated `nodemon` for hot-reloading during development.
+---
 
-## Importing CSV into MongoDB
+## 📥 Importing CSV into MongoDB
 
-- Downloaded the dataset CSV file from the provided source.
-- Created a standalone script (`importCsv.ts`) to read the CSV file using `csv-parser`.
-- Parsed CSV data and transformed fields as necessary (e.g., string `"True"` to Boolean `true`).
-- Inserted the processed data into MongoDB collection using Mongoose models.
-- Script is designed to be run **once** to seed initial data into the database.
+-  Created a one-time script `importCsv.ts` to:
+  - Read from CSV using `csv-parser`
+  - Convert booleans (`"True"` → `true`)
+  - Split pipe-delimited values (e.g., `"wifi|lift"`)
+  - Insert into MongoDB via `Property` model
 
-----------
+---
 
+## API Endpoints
 
-# API End points
+### **Auth**
+| Method | Endpoint      | Description            |
+|--------|---------------|------------------------|
+| POST   | `/auth/signup`| Register new user      |
+| POST   | `/auth/login` | Login + receive token  |
 
-**AUTH**
-## Method	    Endpoint	        Description
-POST	        /auth/signup	    Register new user
-POST	         /auth/login	    Login and receive token
+---
 
+### **Properties**
+| Method | Endpoint                  | Description                          |
+|--------|---------------------------|--------------------------------------|
+| GET    | `/properties`             | Get all properties                   |
+| GET    | `/properties/search`      | Filter/search by query params        |
+| POST   | `/properties`             | Create new property *(auth required)*|
+| PUT    | `/properties/:id`         | Update own property                  |
+| DELETE | `/properties/:id`         | Delete own property                  |
+| GET    | `/properties/my-properties` | Get properties created by current user |
 
-**PROPERTIES**
-## Method	    Endpoint	                    Description
-GET	           /properties	                   Get all properties
-GET	           /properties/search	           Filter/search properties
-POST	       /properties	                   Create new property (auth only)
-PUT	           /properties/:id	               Update own property
-DELETE	       /properties/:id	               Delete own property
-GET	           /properties/my-properties	   Get properties created by user
+---
 
+### **Favorites**
+| Method | Endpoint           | Description               |
+|--------|--------------------|---------------------------|
+| GET    | `/favorites`       | Get user's favorites      |
+| POST   | `/favorites`       | Add to favorites          |
+| DELETE | `/favorites/:id`   | Remove from favorites     |
 
-**SEARCH**
-## Method	        Endpoint	        Description
-GET	                /search	        Get filter search data
+---
 
+### **Recommendations**
+| Method | Endpoint                         | Description                                   |
+|--------|----------------------------------|-----------------------------------------------|
+| POST   | `/recommendations/recommend`     | Recommend property to a user (via email)      |
+| GET    | `/recommendations/received`      | View properties recommended **to** the user   |
 
+---
 
-**FAVORITES**
-## Method	        Endpoint	        Description
-GET	                /favorites	        Get user’s favorites
-POST	            /favorites	        Add property to favorites
-DELETE	            /favorites/:id	    Remove favorite
+### **Search**
+| Method | Endpoint            | Description              |
+|--------|---------------------|--------------------------|
+| GET    | `/properties/search`| Advanced search/filtering|
 
+---
 
-**Recommendations**
-## Method	        Endpoint	                    Description
-POST	            /recommendations/recommend	    Recommend property to user (by email)
-GET	                /recommendations/received	    for received property recommendations
+## Deployment
+
+- Live API hosted on **Render**
+- Cloud database via **MongoDB Atlas**
+- Caching handled by **Upstash Redis**
+
+---
+
+## Author
+
+**Manoj Kumar Teru**  
+[GitHub](https://github.com/your-username) • [LinkedIn](https://linkedin.com/in/your-profile)
+
+---
+
+## Final Notes
+
+This backend is built for scale, performance, and clarity. With caching, modular structure, and production-ready auth — it’s ready for integration into a full-stack real estate platform.
+

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { recommendProperty, getReceivedRecommendations } from "../controllers/RecommendationController"
+import { recommendProperty, getReceivedRecommendations } from "../controllers/recommendationController"
 import { authenticate } from "../middlewares/auth";
 
 const router = Router();

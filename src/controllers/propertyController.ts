@@ -53,21 +53,26 @@ export const getMyProperties = async (req: Request, res: Response) => {
 };
 
 
-
 export const getAllProperties = async (req: Request, res: Response) => {
   try {
-    // fetch properties where createdBy is the logged-in user's ID
-    const properties = await Property.find({});
+    //added pagination
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 20;
+    const skip = (page - 1) * limit;
 
-    if (!properties.length) {
-      return res.status(404).json({ message: "No properties found for this user" });
-    }
+    const properties = await Property.find().skip(skip).limit(limit);
+    const total = await Property.countDocuments();
+    const hasMore = page * limit < total;
 
-    res.status(200).json(properties);
+    res.status(200).json({
+      properties,
+      hasMore
+    });
   } catch (err) {
     res.status(500).json({ message: "Error fetching properties", error: err });
   }
 };
+
 
 
 export const updateProperty = async (req: Request, res: Response) => {

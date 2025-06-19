@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./src/index.ts",
-     "build": "tsc",
-    "import:csv": "nodemon ./src/scripts/importCsv.ts"
-  },
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "dev": "nodemon ./src/index.ts",
+  "start": "node dist/index.js",
+  "build": "tsc",
+  "import:csv": "nodemon ./src/scripts/importCsv.ts"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",

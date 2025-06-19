@@ -19,12 +19,15 @@ authRouter.post("/login", async (req, res) => {
 
         if (isPasswordValid) {
             const token = await user.getJWT();
-            res.cookie("token", token, {
-                expires: new Date(Date.now() + 7 * 24 * 3600000),
-                httpOnly: true,
-                sameSite: 'None',
-                secure:true
-            });
+           const isProduction = (process.env.NODE_ENV || 'development') === 'production';
+
+res.cookie("token", token, {
+  expires: new Date(Date.now() + 7 * 24 * 3600000),
+  httpOnly: true,
+  sameSite: isProduction ? "None" : "Lax",
+  secure: isProduction, // ✅ true only on production/HTTPS
+});
+
             res.send("Login Successful! "+token);
         } else {
             throw new Error("Invalid Credentials");
@@ -60,6 +63,16 @@ authRouter.get("/me",authenticate, async (req, res) => {
   const user = await User.findById(req.user.id).select("emailId firstName lastName");
   res.json(user);
 });
+
+authRouter.post("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    secure: process.env.NODE_ENV === "production"
+  });
+  res.send("Logged out successfully");
+});
+
 
 
 export default authRouter;

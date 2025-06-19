@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import cors=require("cors");
+import cors from "cors";
 import connectDB from "./config/database";
 import propertyRoutes from "./routes/propertyRoutes"
 import authRouter from "./controllers/authController";
@@ -15,13 +15,33 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cookieParser());
-app.use(express.json());
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://homi-hunt.vercel.app",            // ✅ if you add a custom domain
+];
 
 app.use(cors({
-  origin: ["http://localhost:3000","https://homi-hunt.vercel.app"],
-  credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
 }));
 
+
+app.use(express.json());
+
+
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", "true");
+  console.log("Origin:", req.headers.origin); // 👈 log the real frontend origin
+  next();
+});
 
 
 

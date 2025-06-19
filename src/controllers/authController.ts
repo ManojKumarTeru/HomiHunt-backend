@@ -2,6 +2,7 @@ import express from "express";
 import validateSignupData from "../utils/validation";
 import bcrypt from "bcrypt";
 import User from "../models/User";
+import { authenticate } from "../middlewares/auth";
 
 const authRouter = express.Router();
 
@@ -53,5 +54,12 @@ authRouter.post("/signup", async (req, res) => {
         res.status(400).send("Error saving the user data: " + err.message);
     }
 });
+
+// GET /auth/me
+authRouter.get("/me",authenticate, async (req, res) => {
+  const user = await User.findById(req.user.id).select("emailId firstName lastName");
+  res.json(user);
+});
+
 
 export default authRouter;

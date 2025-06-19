@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use(cors({
-  origin: ["http://localhost:3000","https://homi-hunt.vercel.app/"],
+  origin: ["http://localhost:3000","https://homi-hunt.vercel.app"],
   credentials: true
 }));
 
